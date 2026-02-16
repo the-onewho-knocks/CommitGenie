@@ -1,19 +1,41 @@
 {
-  "name": "commit-msg-extension",
+  "name": "commitgenie",
+  "displayName": "CommitOracle",
+  "description": "AI-powered VS Code extension that generates intelligent commit messages using Gemini API.",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "publisher": "your-name",
+  "engines": {
+    "vscode": "^1.85.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "categories": [
+    "Other"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "commitgenie.generateCommit",
+        "title": "Generate Commit Message",
+        "icon": {
+          "light": "assets/icon.svg",
+          "dark": "assets/icon.svg"
+        }
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "command": "commitgenie.generateCommit",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
   "dependencies": {
-    "axios": "^1.13.5",
-    "dotenv": "^17.3.1"
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.0"
   },
   "devDependencies": {
-    "vscode": "^1.1.37"
+    "@types/vscode": "^1.109.0"
   }
 }

@@ -1,12 +1,17 @@
+
 {
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/the-onewho-knocks/commitgenie"
+},
   "name": "commitgenie",
   "displayName": "CommitGenie",
   "description": "AI-powered VS Code extension that generates intelligent commit messages using Gemini API.",
   "version": "1.0.0",
   "publisher": "commitgenie",
   "engines": {
-    "vscode": "^1.85.0"
-  },
+  "vscode": "^1.109.0"
+},
   "categories": [
     "Other"
   ],
@@ -17,8 +22,8 @@
         "command": "commitgenie.generateCommit",
         "title": "Generate Commit Message",
         "icon": {
-          "light": "assets/magic-lamp.svg",
-          "dark": "assets/magic-lamp.svg"
+          "light": "assets/kk.svg",
+          "dark": "assets/kk.svg"
         }
       }
     ],
@@ -32,9 +37,6 @@
       ]
     }
   },
-  "activationEvents": [
-    "onCommand:commitgenie.generateCommit"
-  ],
   "dependencies": {
     "axios": "^1.7.0",
     "dotenv": "^16.4.0"

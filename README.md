@@ -2,118 +2,99 @@
 
 # CommitGenie
 
-**AI-powered Git commit messages, right inside VS Code.**
+**AI-powered Git commit messages, generated in one click.**
 
-CommitGenie analyzes your staged or modified files using Google's Gemini AI and generates professional, intent-driven commit messages following [Conventional Commits](https://www.conventionalcommits.org/) — so you can stay focused on writing code, not describing it.
+Powered by Google Gemini. Built for VS Code.
 
-[![VS Code](https://img.shields.io/badge/VS%20Code-1.109+-007ACC?logo=visual-studio-code&logoColor=white)](https://code.visualstudio.com/)
-[![Gemini AI](https://img.shields.io/badge/Powered%20by-Gemini%20AI-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![VS Code](https://img.shields.io/badge/VS%20Code-1.60%2B-007ACC?logo=visualstudiocode)](https://code.visualstudio.com/)
+[![Gemini](https://img.shields.io/badge/Powered%20by-Gemini-8E44AD)](https://aistudio.google.com/)
 
 </div>
 
 ---
 
-##  Features
+## Overview
 
--  **AI-generated commit messages** using Google Gemini
-- **Native VS Code integration** — works inside the Source Control panel
-- **Supports staged & unstaged changes**
-- **Fast** — typical generation time: 300ms–1200ms
-- **Conventional Commits** format out of the box
-- **Secure** — your API key stays in VS Code settings; only your diff is sent to Gemini
-- **Lightweight** — minimal footprint, zero background processes
+CommitGenie connects directly to your VS Code Source Control panel, reads your staged and modified diffs, and uses Google Gemini to produce clean, conventional commit messages — without leaving your editor.
+
+No copy-pasting. No context switching. Just commit.
 
 ---
 
-## Installation
+## Features
 
-### Via VSIX (Manual)
-
-1. Download the `.vsix` file from the [Releases](../../releases) page
-2. Open VS Code
-3. Open the Extensions panel (`Ctrl+Shift+X`)
-4. Click the **`···`** menu (top-right of the panel)
-5. Select **Install from VSIX...**
-6. Choose the downloaded `.vsix` file
-7. Reload VS Code when prompted
+| | |
+|---|---|
+| **One-click generation** | Trigger from the Source Control toolbar or Command Palette |
+| **Conventional commits** | Output follows the standard `type(scope): description` format |
+| **Staged + unstaged support** | Reads both index changes and working tree diffs |
+| **Configurable model** | Choose any Gemini model via settings |
+| **In-editor experience** | Message is injected directly into the commit input box |
 
 ---
 
-## Setup
+## Requirements
 
-Before using CommitGenie, you need a Gemini API key.
+- VS Code `1.60.0` or later
+- A [Google Gemini API key](https://aistudio.google.com/app/apikey)
+- A Git repository open in your workspace
 
-### 1. Get a Gemini API Key
+---
 
-Visit [https://ai.google.dev/](https://ai.google.dev/) and create a free API key.
+## Getting Started
 
-### 2. Configure VS Code Settings
+**1. Install the extension**
 
-Open Settings with `Ctrl+,`, then search for **CommitGenie**:
+Search for `CommitGenie` in the VS Code Extensions Marketplace and click Install.
+
+**2. Add your API key**
+
+Open Settings (`Ctrl+,` / `Cmd+,`), search for `CommitGenie`, and paste your Gemini API key into **CommitGenie: Gemini Api Key**.
+
+**3. Generate your first commit message**
+
+Stage your changes and either click the CommitGenie button in the Source Control panel, or open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and run:
+
+```
+CommitGenie: Generate Commit Message
+```
+
+---
+
+## Configuration
 
 | Setting | Description | Default |
 |---|---|---|
-| `commitgenie.geminiApiKey` | Your Gemini API key | *(required)* |
-| `commitgenie.geminiModel` | Gemini model to use | `models/gemini-2.5-flash` |
+| `commitgenie.geminiApiKey` | Your Google Gemini API key | *(required)* |
+| `commitgenie.geminiModel` | Gemini model to use for generation | `models/gemini-2.5-flash` |
 
-Or edit your `settings.json` directly:
-
-```jsonc
-{
-  "commitgenie.geminiApiKey": "YOUR_API_KEY_HERE",
-  "commitgenie.geminiModel": "models/gemini-2.5-flash"
-}
-```
-
----
-
-## Usage
-
-1. Open a Git project in VS Code
-2. Modify or stage your files
-3. Open the **Source Control** panel (`Ctrl+Shift+G`)
-4. Click the **CommitGenie** icon in the panel toolbar
-5. Your commit message is generated and filled in automatically 
-
-No copying. No context switching. No blank staring at the input box.
-
----
-
-## Example
-
-### Input — Git Diff
-
-```diff
-+ function validateEmail(email) {
-+   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-+ }
-```
-
-### Output — Generated Commit Message
-
-```
-feat(utils): add email validation helper function
-```
+> Settings can be changed at any time via **File → Preferences → Settings** and searching `CommitGenie`.
 
 ---
 
 ## How It Works
 
-CommitGenie follows a simple five-step pipeline:
+```
+Your staged diff
+      |
+      v
+  VS Code Git API  -->  Raw diff text
+      |
+      v
+  Gemini API  -->  Conventional commit message
+      |
+      v
+  Source Control input box
+```
 
-```
-1. Detect changes    →  Scans modified/staged files in your repo
-2. Extract diff      →  Runs git diff to capture what changed
-3. Send to Gemini    →  Passes the diff to the Gemini API with a prompt
-4. Parse response    →  Extracts and formats the commit message
-5. Fill input box    →  Injects the message into VS Code's SCM input
-```
+1. CommitGenie reads your diffs through the built-in VS Code Git API
+2. The diff is sent to Gemini with a prompt engineered for professional, production-grade commit messages
+3. The response is written directly into the Source Control commit input box
 
 ---
 
-## Architecture
-
-CommitGenie is built with a clean, modular structure:
+## Project Structure
 
 ```
 commit-oracle/
@@ -152,135 +133,28 @@ commit-oracle/
     └── icon.svg                      # Extension icon shown in VS Code marketplace
 ```
 
-### Key Services
+---
 
-**`gitService.js`** — Runs `git diff` (staged or unstaged) and returns the raw diff string.
+## Contributing
 
-```js
-// Example: get staged diff
-const diff = await gitService.getStagedDiff(workspaceRoot);
+Contributions, issues, and feature requests are welcome.
+
+```bash
+# 1. Fork and clone the repository
+git clone https://github.com/the-onewho=knocks/commitgenie.git
+
+# 2. Create a feature branch
+git checkout -b feat/your-feature
+
+# 3. Make your changes, then open a Pull Request
 ```
 
-**`geminiService.js`** — Sends the diff to the Gemini API and returns the raw completion.
-
-```js
-// Example: generate commit message
-const message = await geminiService.generate(diff, apiKey, model);
-```
-
-**`commitService.js`** — Orchestrates the flow and injects the result into the SCM input box.
-
-```js
-// Example: full pipeline
-await commitService.run(context);
-```
-
----
-
-## Security
-
-- API keys are stored in **VS Code's native settings** — never bundled with the extension
-- Only the **Git diff** is transmitted to Gemini; no file paths, project names, or metadata
-- No data is stored externally or logged
-- The extension makes **no network requests** outside of the Gemini API call
-
----
-
-## Supported Gemini Models
-
-| Model | Notes |
-|---|---|
-| `models/gemini-2.5-flash` | **Recommended** — fast, accurate, low cost |
-| `models/gemini-1.5-flash` | Stable alternative |
-| `models/gemini-1.5-pro` | Higher quality, slower and more expensive |
-
----
-
-## Requirements
-
-- **VS Code** `1.109.0` or newer
-- **Git** installed and available in your system `PATH`
-- A valid **Gemini API key**
-
----
-
-## Troubleshooting
-
-### API key not found
-
-```
-Error: CommitGenie › Gemini API key is missing
-```
-
-**Fix:** Open `Ctrl+,`, search for `CommitGenie`, and paste your key into the `Gemini Api Key` field.
-
----
-
-### No commit message generated
-
-Ensure all of the following are true:
-
-- You are inside a valid Git repository
-- At least one file has been **modified or staged**
-- Your Gemini API key is **set and valid**
-- You have an active internet connection
-
----
-
-### Extension not responding
-
-Try reloading the VS Code window:
-
-```
-Ctrl+Shift+P → Developer: Reload Window
-```
-
----
-
-## Roadmap
-
-- [ ] Auto-generate message on file stage
-- [ ] Commit history learning (style adaptation)
-- [ ] Custom commit style preferences
-- [ ] Multi-repository workspace support
-- [ ] VS Code Marketplace release
-
----
-
-##  Contributing
-
-Contributions, bug reports, and feature requests are welcome!
-
-1. Fork the repository
-2. Create your feature branch: `git checkout -b feat/my-feature`
-3. Commit your changes (CommitGenie can help ): `git commit`
-4. Push to the branch: `git push origin feat/my-feature`
-5. Open a Pull Request
-
----
-
-## License
-This project is licensed under the **Apache License 2.0**.
-
----
-
-## Philosophy
-
-> *Developers should focus on building systems, not describing trivial diffs.*
-
-Commit messages should reflect **intent** — not just the mechanical "what changed."  
-CommitGenie bridges that gap, translating your code changes into clear, purposeful commit messages automatically.
+Please keep pull requests focused and include a clear description of what changed and why.
 
 ---
 
 ## Author
 **Hardik Borse** | [LinkedIn](https://www.linkedin.com/in/hardik-borse-aa7729324/) | [Email](mailto:borsehardik@gmail.com)
 
----
-
-<div align="center">
-
-Built with ❤️ using the [VS Code Extension API](https://code.visualstudio.com/api) and [Google Gemini AI](https://ai.google.dev/)
-
-</div>
-
+## License
+This project is licensed under the **Apache License 2.0**.

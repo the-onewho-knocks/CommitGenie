@@ -1,6 +1,6 @@
 {
-  "name": "commitgenie",
-  "displayName": "CommitGenie",
+  "name": "commitzero",
+  "displayName": "commitzero",
   "description": "AI-powered VS Code extension that generates intelligent commit messages using Gemini API.",
   "version": "1.0.1",
   "publisher": "HardikBorse",
@@ -19,14 +19,14 @@
 
   "activationEvents": [
     "onStartupFinished",
-    "onCommand:commitgenie.generateCommit"
+    "onCommand:commitzero.generateCommit"
   ],
 
   "contributes": {
 
     "commands": [
       {
-        "command": "commitgenie.generateCommit",
+        "command": "commitzero.generateCommit",
         "title": "Generate Commit Message",
         "icon": {
           "light": "assests/pngegg.svg",
@@ -38,7 +38,7 @@
     "menus": {
       "scm/title": [
         {
-          "command": "commitgenie.generateCommit",
+          "command": "commitzero.generateCommit",
           "group": "navigation",
           "when": "scmProvider == git"
         }
@@ -46,17 +46,17 @@
     },
 
     "configuration": {
-      "title": "CommitGenie",
+      "title": "commitzero",
       "properties": {
 
-        "commitgenie.geminiApiKey": {
+        "commitzero.geminiApiKey": {
           "type": "string",
           "default": "",
-          "description": "Gemini API key used by CommitGenie to generate commit messages.",
+          "description": "Gemini API key used by commitzero to generate commit messages.",
           "scope": "application"
         },
 
-        "commitgenie.geminiModel": {
+        "commitzero.geminiModel": {
           "type": "string",
           "default": "models/gemini-2.5-flash",
           "description": "Gemini model used for commit message generation.",
